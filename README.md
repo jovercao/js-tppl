@@ -1,9 +1,12 @@
 tppl.js
 =======
 
-**纳米级 js 模板引擎**
+> fork from [https://github.com/jojoin/tppl](https://github.com/jojoin/tppl)
 
-============
+**做了以下改动：**
+
+- 增加便于调试模板的报错提醒
+- 封装成npm包`js-tppl`
 
 ## 特性
 

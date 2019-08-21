@@ -1,0 +1,26 @@
+{
+  "name": "js-tppl",
+  "version": "1.0.0",
+  "description": "js模板引擎",
+  "main": "tppl.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jovercao/tppl.git"
+  },
+  "keywords": [
+    "template",
+    "tpl"
+  ],
+  "author": "jover",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jovercao/tppl/issues"
+  },
+  "homepage": "https://github.com/jovercao/tppl#readme"
+}

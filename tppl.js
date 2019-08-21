@@ -12,31 +12,45 @@
  *
  */
 
-
-exports.tppl = function(tpl, data){
-    var fn =  function(d) {
+function tppl(tpl, data) {
+    var fn = function (d) {
         var i, k = [], v = [];
         for (i in d) {
             k.push(i);
             v.push(d[i]);
         };
-        return (new Function(k, fn.$)).apply(d, v);
+        let handler;
+        try {
+            handler = new Function(k, fn.$);
+        } catch (e) {
+            throw new Error('模板编译错误：\n' + e.message);
+        }
+        try {
+            return handler.apply(d, v);
+        } catch (e) {
+            throw new Error('模板渲染错误：\n' + e.message);
+        }
     };
-    if(!fn.$){
+    if (!fn.$) {
         var tpls = tpl.split('[:');
         fn.$ = "var $=''";
-        for(var t = 0;t < tpls.length;t++){
-            var p = tpls[t].split(':]');
-            if(t!=0){
-                fn.$ += '='==p[0].charAt(0)
-                  ? "+("+p[0].substr(1)+")"
-                  : ";"+p[0].replace(/\r\n/g, '')+"$=$"
+        for (var i = 0; i < tpls.length; i++) {
+            var p = tpls[i].split(':]');
+            if (i != 0) {
+                fn.$ += p[0].charAt(0) === '='
+                    ? "\n    +(" + p[0].substr(1) + ")"
+                    : ";\n    " + p[0] + "$=$";
             }
             // 支持 <pre> 和 [::] 包裹的 js 代码
-            fn.$ += "+'"+p[p.length-1].replace(/\'/g,"\\'").replace(/\r\n/g, '\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\n')+"'";
+            // 文本代码
+            fn.$ += "\n    +'" + p[p.length - 1].replace(/\'/g, "\\'").replace(/\r\n/g, '\\r\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\r') + "'";
         }
         fn.$ += ";return $;";
         // log(fn.$);
     }
     return data ? fn(data) : fn;
 }
+
+module.exports = tppl;
+module.exports.tppl = tppl;
+
