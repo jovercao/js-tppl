@@ -23,12 +23,12 @@ function tppl(tpl, data) {
         try {
             handler = new Function(k, fn.$);
         } catch (e) {
-            throw new Error('模板编译错误：\n' + e.message);
+            throw new Error('模板编译错误：\n' + e.message + '\n模板信息：' + fn.$);
         }
         try {
             return handler.apply(d, v);
         } catch (e) {
-            throw new Error('模板渲染错误：\n' + e.message);
+            throw new Error('模板渲染错误：\n' + e.message + '\n模板信息：' + fn.$);
         }
     };
     if (!fn.$) {
