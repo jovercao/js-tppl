@@ -43,7 +43,7 @@ function tppl(tpl, data) {
             }
             // 支持 <pre> 和 [::] 包裹的 js 代码
             // 文本代码
-            fn.$ += "\n    +'" + p[p.length - 1].replace(/\'/g, "\\'").replace(/\r\n/g, '\\r\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\r') + "'";
+            fn.$ += "\n    +'" + p[p.length - 1].replace(/\\/g, '\\\\').replace(/\'/g, "\\'").replace(/\r\n/g, '\\r\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\r') + "'";
         }
         fn.$ += ";return $;";
         // log(fn.$);
