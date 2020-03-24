@@ -13,7 +13,7 @@
  *
  */
 
-function tppl(tpl, data) {
+function tppl(tpl, options) {
     var fn = function (d) {
         var i, k = [], v = [];
         for (i in d) {
@@ -33,19 +33,19 @@ function tppl(tpl, data) {
         }
     };
     if (!fn.$) {
-        fn.$ = compileTpl(tpl)
+        fn.$ = compileTpl(tpl, options);
     }
-    return data ? fn(data) : fn;
+    return fn;
 }
 
-function compileTpl(tpl) {
+function compileTpl(tpl, { openTag = '[:', closeTag = ':]', valueTag = '=' } = {}) {
     let statements;
-    var tpls = tpl.split('[:');
+    var tpls = tpl.split(openTag);
     statements = "var $=''";
     for (var i = 0; i < tpls.length; i++) {
-        var p = tpls[i].split(':]');
+        var p = tpls[i].split(closeTag);
         if (i !== 0) {
-            statements += p[0].charAt(0) === '='
+            statements += p[0].charAt(0) === valueTag
                 ? "\n    +(" + p[0].substr(1) + ")"
                 : ";\n    " + p[0] + "$=$";
         }
@@ -59,12 +59,12 @@ function compileTpl(tpl) {
 }
 
 function compile2Module(tpl, args) {
-    const statements = compileTpl(tpl)
+    const statements = compileTpl(tpl);
     return `
 module.exports = function(${args.join(', ')}) {
   ${statements}
 }
-`
+`;
 }
 
 module.exports = tppl;

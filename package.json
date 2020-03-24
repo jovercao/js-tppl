@@ -1,6 +1,6 @@
 {
   "name": "js-tppl",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "js模板引擎",
   "main": "tppl.js",
   "directories": {
